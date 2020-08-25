@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="dark" variant="dark">
+  <b-navbar id="nav" type="dark" variant="dark">
     <div class="title text-center"></div>
     <b-navbar-nav>
       <router-link tag="b-navbar-brand" :to="{ name: 'Home' }"
@@ -8,7 +8,7 @@
       <router-link tag="b-nav-item" :to="{ name: 'Home' }">
         <b-button variant="info">Home</b-button></router-link
       >|
-      <router-link tag="b-nav-item" :to="{ name: 'SearchPage' }">
+      <router-link tag="b-nav-item" :to="{ name: 'SuccessfullReview' }">
         <b-button variant="info">Search for reviews</b-button></router-link
       >|
       <router-link tag="b-nav-item" :to="{ name: 'AddPage' }">
@@ -69,4 +69,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.nav {
+  height: 100%;
+  width: max-content;
+}
+</style>

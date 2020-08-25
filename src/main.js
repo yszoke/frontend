@@ -6,6 +6,7 @@ import store from "./store";
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -19,6 +20,7 @@ import {
   LayoutPlugin,
   IconsPlugin,
   VBHoverPlugin,
+  FormTextareaPlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -33,7 +35,8 @@ import {
   LayoutPlugin,
   IconsPlugin,
   VBHoverPlugin,
-].forEach((x) => Vue.use(x));
+  FormTextareaPlugin
+].forEach(x => Vue.use(x));
 Vue.use(Vuelidate);
 
 import vueHeadful from "vue-headful";
@@ -41,8 +44,21 @@ import vueHeadful from "vue-headful";
 Vue.component("vue-headful", vueHeadful);
 Vue.config.productionTip = false;
 
+// const shared_data = {
+//   base_url: "http://localhost:4000",
+//   username: localStorage.username,
+//   login(username) {
+//     localStorage.setItem("username", username);
+//     this.username = username;
+//   },
+//   logout() {
+//     localStorage.removeItem("username");
+//     this.username = undefined;
+//   },
+// };
+
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

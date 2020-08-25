@@ -37,6 +37,33 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SearchPage.vue"),
   },
+  {
+    path: "/success",
+    name: "SuccessfullReview",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SuccessfullReview.vue"),
+  },
+  {
+    path: "/WrongEmail",
+    name: "WrongEmail",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/WrongEmail.vue"),
+  },
+  {
+    path: "/permission",
+    name: "permission",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/permission.vue"),
+  },
 ];
 
 const router = new VueRouter({

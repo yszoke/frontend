@@ -10,6 +10,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
+    "mdbvue": "^6.7.1",
     "vue": "^2.6.11",
     "vue-headful": "^2.1.0",
     "vue-router": "^3.2.0",
