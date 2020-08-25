@@ -1,38 +1,33 @@
 <template>
-  <div id="success">
-    <div id="face" class="title text-center">
+  <div id="container">
+    <div id="face">
       <img src="../assets/face.png" />
     </div>
-    <br />
-    <div id="help" class="title text-center">
+    <div id="help">
       <img src="../assets/help.png" />
     </div>
-    <br />
-    <div id="words" class="title text-center">
+    <div id="words">
       כניסה לבעלי מייל post.bgu.ac.il בלבד
     </div>
-    <br />
-    <div id="words" class="title text-center">
+    <div id="words">
       כן בעלי מייל אוניברסטאי ? אנא וודאו שאתם מתחברים דרכו ולא דרך חשבון אחר
     </div>
-    <br />
-    <div class="text-center">
-      <b-button pill variant="success">
-        <img
-          height="20px"
-          width="20px"
-          alt="google"
-          src="../assets/google2.png"
-        />
-        <h3>Sign in with google</h3></b-button
-      >
+    <LoginButton />
+    <div id="moreWords">
+      לטובת אמינות המידע, הסתמכנו * על התמיכה ההדדי בין הסטודנטים עקב זאת החלטנו
+      להגביל את היכולת לקרוא ולכתוב תגובות אך ורק לחברי האונברסיטה, מבקשים את
+      הבנתכם
     </div>
-    <br />
   </div>
 </template>
 
 <script>
-export default {};
+import LoginButton from "../components/LoginButton";
+export default {
+  components: {
+    LoginButton,
+  },
+};
 </script>
 <style>
 :root {
@@ -65,5 +60,11 @@ export default {};
 #words {
   font-size: 30px;
   font: "ariel";
+}
+
+#moreWords {
+  font-size: 30px;
+  font: "ariel";
+  color: tomato;
 }
 </style>

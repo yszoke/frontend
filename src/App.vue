@@ -4,13 +4,16 @@
     <div id="nav">
       <router-link to="/">Home </router-link>|
       <router-link to="/about"> About </router-link>|
-      <router-link to="/success"> SuccessfullReview </router-link>|
-      <router-link to="/WrongEmail"> WrongEmail </router-link>|
-      <router-link to="/permission"> permission </router-link>
+      <router-link to="/success"> Successfull Review </router-link>|
+      <router-link to="/WrongEmail"> Wrong Email </router-link>|
+      <router-link to="/ConnectionFaild"> Connection Faild </router-link>|
+      <router-link to="/InsertReview"> Insert Review </router-link>
     </div>
     <main><router-view /></main>
     <footer id="footer" class="container text-center">
-      <big>Copyright &copy; Tomer Oko and Yiftah Szoke</big>
+      <big>Copyright &copy; Tomer Oko and Yiftah Szoke</big><br />
+      <router-link to="/about">click here </router-link> <br />for more
+      information
     </footer>
   </div>
 </template>
@@ -73,7 +76,7 @@ footer {
 
 #nav a {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 16px;
   color: #000000;
 }
 

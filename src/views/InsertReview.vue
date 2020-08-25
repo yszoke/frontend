@@ -1,23 +1,29 @@
 <template>
   <div id="container">
+    <BackButton />
     <div id="face">
-      <img src="../assets/face.png" />
+      <img src="../assets/rightPoint.jpg" />
     </div>
-    <div id="help">
-      <img src="../assets/help.png" />
-    </div>
-    <div id="words">
-      !תודה רבה יש סיכוי ששיניתם שנה שלמה של מישהו לטובה הרבה יותר
-    </div>
-    <LoginButton />
+    <Selector
+      class="Selector"
+      :options="[
+        { value: 'א', text: 'א' },
+        { value: 'ב', text: 'ב' },
+        { value: 'ג', text: 'ג' },
+        { value: 'ד', text: 'ד' },
+      ]"
+    />
   </div>
 </template>
 
 <script>
-import LoginButton from "../components/LoginButton";
+import BackButton from "../components/BackButton";
+import Selector from "../components/Selector";
+
 export default {
   components: {
-    LoginButton,
+    BackButton,
+    Selector,
   },
 };
 </script>
@@ -51,6 +57,12 @@ export default {
 
 #words {
   font-size: 30px;
-  font-family: "Montserrat-Bold, Montserrat";
+  font: "ariel";
+}
+
+#moreWords {
+  font-size: 30px;
+  font: "ariel";
+  color: tomato;
 }
 </style>

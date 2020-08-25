@@ -3,12 +3,13 @@
     <div id="face">
       <img src="../assets/face.png" />
     </div>
-
-    <div id="welcome">
-      ברוכים הבאים למנש
-    </div>
     <div id="words">
-      אתר הדירות של באר שבע
+      ההתחברות נכשלה ..
+    </div>
+
+    <div id="moreWords">
+      תנסו שוב אולי אנחנו או אתם עשינו משהו לא נכון בתקשורת עם גוגל. אופציה שניה
+      זה שהשרתים .של גוגל נפלו ואז סוף העולם הגיע (:
     </div>
     <LoginButton />
   </div>
@@ -43,12 +44,20 @@ export default {
   padding-top: var(--main-padding);
 }
 
-#welcome {
-  font-size: 40px;
-  font-family: "Montserrat-Bold, Montserrat";
+#help {
+  /* background: #0000ff; */
+  grid-area: help;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
 }
+
 #words {
   font-size: 30px;
-  font-family: "Montserrat-Bold, Montserrat";
+  font: "ariel";
+}
+
+#moreWords {
+  font-size: 30px;
+  font: "ariel";
 }
 </style>
