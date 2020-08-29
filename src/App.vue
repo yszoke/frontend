@@ -4,11 +4,15 @@
     <div id="nav">
       <router-link to="/">Home </router-link>|
       <router-link to="/about"> About </router-link>|
-      <router-link to="/success"> Successfull Review </router-link>|
+      <router-link to="/SuccessfullReview"> Successfull Review </router-link>|
       <router-link to="/WrongEmail"> Wrong Email </router-link>|
       <router-link to="/ConnectionFaild"> Connection Faild </router-link>|
-      <router-link to="/InsertReview"> Insert Review </router-link>
+      <router-link to="/InsertLocation"> Insert Location </router-link>|
+      <router-link to="/menu"> menu </router-link>|
+      <router-link to="/SetReview1"> SetReview1 </router-link>|
+      <router-link to="/SetReview2"> SetReview2 </router-link>
     </div>
+    <br />
     <main><router-view /></main>
     <footer id="footer" class="container text-center">
       <big>Copyright &copy; Tomer Oko and Yiftah Szoke</big><br />

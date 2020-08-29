@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div>
     <b-button>
       <imgs src="../assets/login.jpg" />
     </b-button>

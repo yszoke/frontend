@@ -32,7 +32,7 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/SearchPage.vue"),
   },
   {
-    path: "/success",
+    path: "/SuccessfullReview",
     name: "SuccessfullReview",
 
     component: () =>
@@ -52,11 +52,32 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/ConnectionFaild.vue"),
   },
   {
-    path: "/InsertReview",
-    name: "InsertReview",
+    path: "/InsertLocation",
+    name: "InsertLocation",
 
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/InsertReview.vue"),
+      import(/* webpackChunkName: "about" */ "../views/InsertLocation.vue"),
+  },
+  {
+    path: "/menu",
+    name: "menu",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/menu.vue"),
+  },
+  {
+    path: "/SetReview1",
+    name: "SetReview1",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SetReview1.vue"),
+  },
+  {
+    path: "/SetReview2",
+    name: "SetReview2",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SetReview2.vue"),
   },
 ];
 
