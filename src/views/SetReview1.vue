@@ -1,69 +1,123 @@
 <template>
   <div id="container">
-    <BackButton />
+    <router-link :to="{ name: 'InsertLocation' }"
+      ><b-button> <img alt="back" src="../assets/back.jpg" /> </b-button
+    ></router-link>
     <div id="face">
       <img src="../assets/rightPoint.jpg" />
     </div>
-    <div>
-      שנת מגורים:
-      <b-form-select
-        :options="options"
-        v-model="selected"
-        :selected="selected"
-      ></b-form-select>
-    </div>
-    <div>
-      איך היה:
-      <b-form-textarea
-        id="textarea"
-        v-model="text"
-        placeholder="Enter something..."
-        rows="3"
-        max-rows="6"
-      ></b-form-textarea>
-    </div>
-    <div>
-      ציון כללי מ-1 עד 10?
-      <b-form-select
-        :options="rankOptions"
-        v-model="rankSelected"
-        :selected="rankSelected"
-      ></b-form-select>
-    </div>
-    <div>
-      שכירות:
-      <b-form-input
-        id="input-formatter"
-        v-model="text1"
-        placeholder="Enter your name"
-        :formatter="formatter"
-      ></b-form-input>
-    </div>
 
-    <div>
-      חשבונות מלאים:
-      <b-form-input
-        id="input-formatter"
-        v-model="text1"
-        placeholder="Enter your name"
-        :formatter="formatter"
-      ></b-form-input>
-    </div>
+    <b-form @submit.stop.prevent="onSubmit">
+      <b-form-group
+        id="example-input-group-1"
+        label="שנת מגורים:"
+        label-for="example-input-1"
+      >
+        <b-form-select
+          id="example-input-1"
+          name="example-input-1"
+          v-model="$v.form.year.$model"
+          :options="options"
+          :state="$v.form.year.$dirty ? !$v.form.year.$error : null"
+          aria-describedby="input-1-live-feedback"
+        ></b-form-select>
 
-    <b-button :disabled="disabled" to="/SetReview2" variant="success"
-      >3 שאלות אחרונות על הבניין</b-button
-    >
+        <b-form-invalid-feedback id="input-1-live-feedback">
+          must choose year
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="example-input-group-2"
+        label="איך היה?"
+        label-for="example-input-2"
+      >
+        <b-form-textarea
+          id="example-input-2"
+          name="example-input-2"
+          v-model="$v.form.review.$model"
+          :state="$v.form.review.$dirty ? !$v.form.review.$error : null"
+          aria-describedby="input-1-live-feedback"
+        ></b-form-textarea>
+
+        <b-form-invalid-feedback id="input-2-live-feedback">
+          This is a required field and must be at least 3 characters.
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="example-input-group-3"
+        label="ציון כללי מ-1 עד 10?"
+        label-for="example-input-3"
+      >
+        <b-form-select
+          id="example-input-3"
+          name="example-input-3"
+          v-model="$v.form.rank.$model"
+          :options="rankOptions"
+          :state="$v.form.rank.$dirty ? !$v.form.rank.$error : null"
+          aria-describedby="input-3-live-feedback"
+        ></b-form-select>
+
+        <b-form-invalid-feedback id="input-3-live-feedback">
+          must choose rank
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="example-input-group-4"
+        label="שכירות:"
+        label-for="example-input-4"
+      >
+        <b-form-input
+          id="example-input-4"
+          name="example-input-4"
+          v-model="$v.form.payments.$model"
+          :state="$v.form.payments.$dirty ? !$v.form.payments.$error : null"
+          aria-describedby="input-1-live-feedback"
+        ></b-form-input>
+
+        <b-form-invalid-feedback id="input-4-live-feedback">
+          must choose a number
+        </b-form-invalid-feedback>
+      </b-form-group>
+      <b-form-group
+        id="example-input-group-5"
+        label="חשבונות מלאים:"
+        label-for="example-input-5"
+      >
+        <b-form-input
+          id="example-input-5"
+          name="example-input-5"
+          v-model="$v.form.price.$model"
+          :state="$v.form.price.$dirty ? !$v.form.price.$error : null"
+          aria-describedby="input-1-live-feedback"
+        ></b-form-input>
+
+        <b-form-invalid-feedback id="input-5-live-feedback">
+          must choose a number
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-button
+        type="submit"
+        variant="success"
+        to="/SetReview2"
+        :disabled="$v.form.$invalid"
+        >3 שאלות אחרונות על הבניין</b-button
+      >
+    </b-form>
   </div>
 </template>
 
 <script>
-import BackButton from "../components/BackButton";
+import { validationMixin } from "vuelidate";
+import { required, minLength, integer } from "vuelidate/lib/validators";
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
-      selected: "",
-      rankSelected: "",
       options: [
         "2010",
         "2011",
@@ -78,12 +132,48 @@ export default {
         "2020",
       ],
       rankOptions: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+
+      form: {
+        year: null,
+        review: null,
+        rank: null,
+        price: null,
+        payments: null,
+      },
     };
   },
-  components: {
-    BackButton,
+  components: {},
+  validations: {
+    form: {
+      year: {
+        required,
+      },
+      review: {
+        required,
+        minLength: minLength(3),
+      },
+      rank: {
+        required,
+      },
+      price: {
+        required,
+        integer,
+      },
+      payments: {
+        required,
+        integer,
+      },
+    },
+  },
+  methods: {
+    onSubmit() {
+      this.$v.form.$touch();
+      if (this.$v.form.$anyError) {
+        return;
+      }
+
+      // Form submit logic
+    },
   },
 };
 </script>
-
-<style></style>

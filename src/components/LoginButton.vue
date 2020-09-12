@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-button>
-      <imgs src="../assets/login.jpg" />
+      <img src="../assets/login.jpg" />
     </b-button>
   </div>
 </template>

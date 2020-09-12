@@ -1,27 +1,39 @@
 <template>
   <div id="container">
-    <BackButton />
-    <GreenIcon />
-    <GreenIcon />
-    <b-button :disabled="disabled" to="/InsertLocation" variant="success"
-      >חיפוש מידע על חווית המגורים בדירה</b-button
+    <div id="face">
+      <img src="../assets/face.png" />
+    </div>
+    <div id="pic">
+      <img src="../assets/welcome.jpg" />
+    </div>
+    <div id="words">
+      סטודנטים שמחים שהגעתם
+    </div>
+
+    <div id="moreWords">
+      יאללה בואו נתחיל
+    </div>
+    <b-button :disabled="disabled" to="/SearchPage" variant="success"
+      >חיפוש מידע על דירה</b-button
     >
     <b-button :disabled="disabled" to="/InsertLocation" variant="success"
-      >תרומת מדע על חווית המגורים בדירה</b-button
+      >שיתוף בחווית מגורים</b-button
     >
   </div>
 </template>
 
 <script>
-import BackButton from "../components/BackButton";
-import GreenIcon from "../components/GreenIcon";
-
-export default {
-  components: {
-    BackButton,
-    GreenIcon,
-  },
-};
+export default {};
 </script>
 
-<style></style>
+<style>
+#words {
+  font-size: 30px;
+  font: "ariel";
+}
+
+#moreWords {
+  font-size: 30px;
+  font: "ariel";
+}
+</style>

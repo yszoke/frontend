@@ -39,6 +39,19 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/SuccessfullReview.vue"),
   },
   {
+    path: "/SuccessfullSearch",
+    name: "SuccessfullSearch",
+
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SuccessfullSearch.vue"),
+  },
+  {
+    path: "/SearchPage",
+    name: "SearchPage",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/SearchPage.vue"),
+  },
+  {
     path: "/WrongEmail",
     name: "WrongEmail",
     component: () =>

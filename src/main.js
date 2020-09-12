@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import axios from "axios";
+import VueAxios from "vue-axios";
 
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,7 +22,7 @@ import {
   LayoutPlugin,
   IconsPlugin,
   VBHoverPlugin,
-  FormTextareaPlugin
+  FormTextareaPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -35,14 +37,27 @@ import {
   LayoutPlugin,
   IconsPlugin,
   VBHoverPlugin,
-  FormTextareaPlugin
-].forEach(x => Vue.use(x));
+  FormTextareaPlugin,
+].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 import vueHeadful from "vue-headful";
 
 Vue.component("vue-headful", vueHeadful);
 Vue.config.productionTip = false;
+
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    return response;
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error);
+  }
+);
+axios.defaults.withCredentials = true;
+Vue.use(VueAxios, axios);
 
 // const shared_data = {
 //   base_url: "http://localhost:4000",
@@ -60,5 +75,5 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
