@@ -16,7 +16,7 @@
           id="example-input-1"
           name="example-input-1"
           v-model="$v.form.street.$model"
-          :options="foods"
+          :options="streets"
           :state="$v.form.street.$dirty ? !$v.form.street.$error : null"
           aria-describedby="input-1-live-feedback"
         ></b-form-select>
@@ -72,8 +72,12 @@
         >יאללה לבדיקת מידע</b-button
       >
     </b-form>
-    <div v-for="r in streets" :key="r.id">
-      <p>{{ message }}</p>
+    <p>{{ message }}</p>
+    <div v-for="r in results" :key="r.id">
+      <p>{{ r.name }}</p>
+    </div>
+    <p>{{ message2 }}</p>
+    <div v-for="r in results2" :key="r.id">
       <p>{{ r.name }}</p>
     </div>
     <b-button type="submit" variant="success" to="/successfullSearch"
@@ -97,11 +101,17 @@ export default {
       streets: [],
       buildingNums: [],
       apartmentNums: [],
+      disable: false,
+      disable2: false,
 
       results: [],
+      results2: [],
+
       numbers: [{ value: null, text: "", disabled: true }],
 
       message: "",
+      message2: "",
+
       form: {
         street: null,
         buildingNum: null,
@@ -132,29 +142,22 @@ export default {
   mounted() {
     this.numbers.push(...numbers);
   },
-  created() {
-    this.insertStreets();
+  async created() {
+    try {
+      const response = await this.axios.get(
+        this.$root.store.base_url + "/getAllStreets"
+      );
+      const streets = response.data;
+      this.streets = [];
+
+      for (const street in streets) {
+        this.streets.push(streets[street].DB_Name);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   },
   methods: {
-    async insertStreets() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/JsonOfAllStreets"
-        );
-        const streets = response.data;
-        this.streets = [];
-        this.streets.push(...streets);
-        console.log(streets);
-
-        // for (const street in streets) {
-        //   this.streets.push(street);
-        //   console.log(street);
-        // }
-        console.log(this.streets);
-      } catch (error) {
-        console.log(error);
-      }
-    },
     onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
@@ -167,20 +170,45 @@ export default {
     async Search() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/JsonOfAllStreets"
+          this.$root.store.base_url + "/getApartmentPosts",
+          {
+            street: this.form.street,
+            buildingNum: this.form.buildingNum,
+            apartmentNum: this.form.apartmentNum,
+          }
         );
-        const recipes = response.data;
+        const reviews = response.data;
 
         this.results = [];
-        this.results.push(...recipes);
+        this.results.push(...reviews);
 
-        if (recipes.length > 0) {
-          this.message = recipes.length + " results returned from your search";
-
+        if (reviews.length > 0) {
+          this.message = reviews.length + " results returned from your search";
           this.disabled = false;
         } else {
           this.message = "no results from your search";
           this.disabled = true;
+        }
+
+        const response2 = await this.axios.get(
+          this.$root.store.base_url + "/getApartmentPosts",
+          {
+            street: this.form.street,
+            buildingNum: this.form.buildingNum,
+          }
+        );
+        const reviews2 = response2.data;
+
+        this.results2 = [];
+        this.results2.push(...reviews2);
+
+        if (reviews2.length > 0) {
+          this.message2 =
+            reviews2.length + " results returned from your search";
+          this.disabled2 = false;
+        } else {
+          this.message2 = "no results from your search";
+          this.disabled2 = true;
         }
       } catch (error) {
         console.log(error);

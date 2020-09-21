@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+// import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
 
@@ -59,21 +59,48 @@ axios.interceptors.response.use(
 axios.defaults.withCredentials = true;
 Vue.use(VueAxios, axios);
 
-// const shared_data = {
-//   base_url: "http://localhost:4000",
-//   username: localStorage.username,
-//   login(username) {
-//     localStorage.setItem("username", username);
-//     this.username = username;
-//   },
-//   logout() {
-//     localStorage.removeItem("username");
-//     this.username = undefined;
-//   },
-// };
+const shared_data = {
+  base_url: "http://localhost:3000",
+  username: localStorage.username,
+  street: localStorage.street,
+  year: localStorage.year,
+  review: localStorage.review,
+  rank: localStorage.rank,
+  price: localStorage.price,
+  payments: localStorage.payments,
+
+  setStreet(street) {
+    localStorage.setItem("street", street);
+  },
+  setBuildingNum(num) {
+    localStorage.setItem("BNum", num);
+  },
+  setApartmentNum(num) {
+    localStorage.setItem("ANum", num);
+  },
+  setDetails(year, review, rank, price, payments) {
+    localStorage.setItem("year", year);
+    localStorage.setItem("review", review);
+    localStorage.setItem("rank", rank);
+    localStorage.setItem("price", price);
+    localStorage.setItem("payments", payments);
+  },
+  login(username) {
+    localStorage.setItem("username", username);
+    this.username = username;
+  },
+  logout() {
+    localStorage.removeItem("username");
+    this.username = undefined;
+  },
+};
 
 new Vue({
   router,
-  store,
+  data() {
+    return {
+      store: shared_data,
+    };
+  },
   render: (h) => h(App),
 }).$mount("#app");

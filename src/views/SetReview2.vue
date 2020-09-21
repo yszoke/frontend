@@ -63,11 +63,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-button
-        type="submit"
-        variant="success"
-        to="/successfullReview"
-        :disabled="$v.form.$invalid"
+      <b-button type="submit" variant="success" :disabled="$v.form.$invalid"
         >שלח</b-button
       >
     </b-form>
@@ -112,8 +108,35 @@ export default {
       if (this.$v.form.$anyError) {
         return;
       }
+      this.sendReview();
 
       // Form submit logic
+    },
+    async sendReview() {
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/createApartmentPost",
+          {
+            startYear: this.$root.store.year,
+            // endYear: this.$root.store.endYear,
+            APA_Text: this.$root.store.review,
+            APA_rank: this.$root.store.rank,
+            rentCost: this.$root.store.price,
+            heshbonot: this.$root.store.payments,
+          }
+        );
+        const result = response.data.id;
+        if (result.length > 0) {
+          this.message = result.length + " results returned from your search";
+          this.disabled = false;
+        } else {
+          this.message = "no results from your search";
+          this.disabled = true;
+        }
+        this.$router.push({ name: "successfullReview" });
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

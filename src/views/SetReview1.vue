@@ -38,6 +38,7 @@
           v-model="$v.form.review.$model"
           :state="$v.form.review.$dirty ? !$v.form.review.$error : null"
           aria-describedby="input-1-live-feedback"
+          placeholder="תאר/י את הדירה במילים"
         ></b-form-textarea>
 
         <b-form-invalid-feedback id="input-2-live-feedback">
@@ -72,9 +73,10 @@
         <b-form-input
           id="example-input-4"
           name="example-input-4"
-          v-model="$v.form.payments.$model"
-          :state="$v.form.payments.$dirty ? !$v.form.payments.$error : null"
+          v-model="$v.form.price.$model"
+          :state="$v.form.price.$dirty ? !$v.form.price.$error : null"
           aria-describedby="input-1-live-feedback"
+          placeholder="הכנס/י את שכר הדירה בשקלים"
         ></b-form-input>
 
         <b-form-invalid-feedback id="input-4-live-feedback">
@@ -89,8 +91,8 @@
         <b-form-input
           id="example-input-5"
           name="example-input-5"
-          v-model="$v.form.price.$model"
-          :state="$v.form.price.$dirty ? !$v.form.price.$error : null"
+          v-model="$v.form.payments.$model"
+          :state="$v.form.payments.$dirty ? !$v.form.payments.$error : null"
           aria-describedby="input-1-live-feedback"
         ></b-form-input>
 
@@ -99,11 +101,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-button
-        type="submit"
-        variant="success"
-        to="/SetReview2"
-        :disabled="$v.form.$invalid"
+      <b-button type="submit" variant="success" :disabled="$v.form.$invalid"
         >3 שאלות אחרונות על הבניין</b-button
       >
     </b-form>
@@ -171,6 +169,21 @@ export default {
       if (this.$v.form.$anyError) {
         return;
       }
+      this.year = this.form.year;
+      this.review = this.form.review;
+      this.rank = this.form.rank;
+      this.price = this.form.price;
+      this.payments = this.form.payments;
+
+      this.$root.store.setDetails(
+        this.year,
+        this.review,
+        this.rank,
+        this.price,
+        this.payments
+      );
+
+      this.$router.push({ name: "SetReview2" });
 
       // Form submit logic
     },

@@ -68,11 +68,7 @@
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <b-button
-        type="submit"
-        variant="success"
-        to="/setReview1"
-        :disabled="$v.form.$invalid"
+      <b-button type="submit" variant="success" :disabled="$v.form.$invalid"
         >יאללה המשכנו</b-button
       >
     </b-form>
@@ -134,55 +130,62 @@ export default {
     this.numbers.push(...numbers);
   },
   created() {
-    this.insertStreets();
+    // this.insertStreets();
   },
   methods: {
-    async insertStreets() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/JsonOfAllStreets"
-        );
-        const streets = response.data;
-        this.streets = [];
-        this.streets.push(...streets);
-        console.log(streets);
+    // async insertStreets() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/JsonOfAllStreets"
+    //     );
+    //     const streets = response.data;
+    //     this.streets = [];
+    //     this.streets.push(...streets);
+    //     console.log(streets);
 
-        // for (const street in streets) {
-        //   this.streets.push(street);
-        //   console.log(street);
-        // }
-        console.log(this.streets);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     // for (const street in streets) {
+    //     //   this.streets.push(street);
+    //     //   console.log(street);
+    //     // }
+    //     console.log(this.streets);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
     onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
+      this.street = this.form.street;
+      this.$root.store.setStreet(this.street);
+
+      this.buildingNum = this.form.buildingNum;
+      this.$root.store.setBuildingNum(this.buildingNum);
+
+      this.apartmentNum = this.form.apartmentNum;
+      this.$root.store.setApartmentNum(this.apartmentNum);
+
       this.Search();
 
       // Form submit logic
     },
     async Search() {
       try {
-        const response = await this.axios.get(
-          "http://localhost:3000/JsonOfAllStreets"
-        );
-        const recipes = response.data;
-
-        this.results = [];
-        this.results.push(...recipes);
-
-        if (recipes.length > 0) {
-          this.message = recipes.length + " results returned from your search";
-
-          this.disabled = false;
-        } else {
-          this.message = "no results from your search";
-          this.disabled = true;
-        }
+        // const response = await this.axios.get(
+        //   "http://localhost:3000/JsonOfAllStreets"
+        // );
+        // const recipes = response.data;
+        // this.results = [];
+        // this.results.push(...recipes);
+        // if (recipes.length > 0) {
+        //   this.message = recipes.length + " results returned from your search";
+        //   this.disabled = false;
+        // } else {
+        //   this.message = "no results from your search";
+        //   this.disabled = true;
+        // }
+        this.$router.push({ name: "SetReview1" });
       } catch (error) {
         console.log(error);
       }
