@@ -19,6 +19,7 @@
           :options="streets"
           :state="$v.form.street.$dirty ? !$v.form.street.$error : null"
           aria-describedby="input-1-live-feedback"
+          v-on:change="SelectedStreet"
         ></b-form-select>
 
         <b-form-invalid-feedback id="input-1-live-feedback">
@@ -35,11 +36,12 @@
           id="example-input-2"
           name="example-input-2"
           v-model="$v.form.buildingNum.$model"
-          :options="numbers"
+          :options="buildingNums"
           :state="
             $v.form.buildingNum.$dirty ? !$v.form.buildingNum.$error : null
           "
           aria-describedby="input-2-live-feedback"
+          v-on:change="SelectedBuilding"
         ></b-form-select>
 
         <b-form-invalid-feedback id="input-2-live-feedback">
@@ -56,7 +58,7 @@
           id="example-input-3"
           name="example-input-3"
           v-model="$v.form.apartmentNum.$model"
-          :options="numbers"
+          :options="apartmentNums"
           :state="
             $v.form.apartmentNum.$dirty ? !$v.form.apartmentNum.$error : null
           "
@@ -83,14 +85,32 @@
     <b-button type="submit" variant="success" to="/successfullSearch"
       >סיום</b-button
     >
+    <div>
+      <b-row>
+        <b-col>
+          <h2>ביקורות על הדירה</h2>
+          <div v-for="r in results" :key="r.id">
+            <Reviews class="Reviews" :review="r" />
+          </div>
+        </b-col>
+        <b-col>
+          <h2>ביקורות על הבניין</h2>
+
+          <div v-for="r in results2" :key="r.id">
+            <Reviews class="Reviews" :review="r" />
+          </div>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
+import Reviews from "./Reviews";
 // import { required, minLength } from "vuelidate/lib/validators";
 import { required } from "vuelidate/lib/validators";
-import numbers from "../assets/numbers";
+// import numbers from "../assets/numbers";
 import GreenIcon from "../components/GreenIcon";
 
 export default {
@@ -103,12 +123,16 @@ export default {
       apartmentNums: [],
       disable: false,
       disable2: false,
-
+      streetID: "",
+      buildingID: "",
       results: [],
       results2: [],
-
+      dictStreets: {},
+      dictBuildings: {},
+      dictApartment: {},
       numbers: [{ value: null, text: "", disabled: true }],
 
+      test: "",
       message: "",
       message2: "",
 
@@ -121,6 +145,7 @@ export default {
   },
   components: {
     GreenIcon,
+    Reviews,
   },
   validations: {
     form: {
@@ -133,83 +158,102 @@ export default {
       apartmentNum: {
         required,
       },
-      // name: {
-      //   required,
-      //   minLength: minLength(3),
-      // },
     },
   },
-  mounted() {
-    this.numbers.push(...numbers);
-  },
+  async mounted() {},
   async created() {
     try {
-      const response = await this.axios.get(
+      const response = await this.axios.post(
         this.$root.store.base_url + "/getAllStreets"
       );
       const streets = response.data;
       this.streets = [];
 
       for (const street in streets) {
-        this.streets.push(streets[street].DB_Name);
+        this.streets.push(streets[street].streetName);
+        this.dictStreets[streets[street].streetName] = streets[street].Id;
       }
     } catch (error) {
       console.log(error);
     }
   },
   methods: {
-    onSubmit() {
+    SelectedStreet: async function(myarg) {
+      this.streetID = this.dictStreets[myarg];
+      try {
+        const response2 = await this.axios.post(
+          this.$root.store.base_url + "/getBuildings",
+          {
+            StreetId: this.streetID,
+          }
+        );
+        const numbers = response2.data;
+
+        this.buildingNums = [];
+
+        for (const number in numbers) {
+          this.buildingNums.push(numbers[number].Name);
+          this.dictBuildings[numbers[number].Name] = numbers[number].Id;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    SelectedBuilding: async function(myarg) {
+      this.buildingID = this.dictBuildings[myarg];
+      try {
+        const response2 = await this.axios.post(
+          this.$root.store.base_url + "/getApartments",
+          {
+            buildingId: this.buildingID,
+          }
+        );
+        const numbers = response2.data;
+        console.log(numbers);
+        this.apartmentNums = [];
+
+        for (const number in numbers) {
+          this.apartmentNums.push(numbers[number].Name);
+          this.dictApartment[numbers[number].Name] = numbers[number].Id;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
       this.Search();
-
-      // Form submit logic
     },
     async Search() {
+      console.log(this.dictApartment[this.form.apartmentNum]);
+
       try {
-        const response = await this.axios.get(
+        const response = await this.axios.post(
           this.$root.store.base_url + "/getApartmentPosts",
           {
-            street: this.form.street,
-            buildingNum: this.form.buildingNum,
-            apartmentNum: this.form.apartmentNum,
+            apartmentId: this.dictApartment[this.form.apartmentNum],
           }
         );
         const reviews = response.data;
-
         this.results = [];
         this.results.push(...reviews);
+        console.log(this.form.buildingNum);
 
-        if (reviews.length > 0) {
-          this.message = reviews.length + " results returned from your search";
-          this.disabled = false;
-        } else {
-          this.message = "no results from your search";
-          this.disabled = true;
-        }
+        console.log(this.dictBuildings[this.form.buildingNum]);
 
-        const response2 = await this.axios.get(
-          this.$root.store.base_url + "/getApartmentPosts",
+        const response2 = await this.axios.post(
+          this.$root.store.base_url + "/getBuildingPosts",
           {
-            street: this.form.street,
-            buildingNum: this.form.buildingNum,
+            buildingId: this.dictBuildings[this.form.buildingNum],
           }
         );
+        console.log(response2);
         const reviews2 = response2.data;
-
         this.results2 = [];
         this.results2.push(...reviews2);
-
-        if (reviews2.length > 0) {
-          this.message2 =
-            reviews2.length + " results returned from your search";
-          this.disabled2 = false;
-        } else {
-          this.message2 = "no results from your search";
-          this.disabled2 = true;
-        }
       } catch (error) {
         console.log(error);
       }

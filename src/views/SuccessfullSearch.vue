@@ -14,7 +14,7 @@
       לעזור לכם, שזה בעצם אנחנו
     </div>
     <div id="back">
-      <router-link :to="{ name: 'Home' }"
+      <router-link :to="{ name: 'menu' }"
         ><b-button> <img alt="back" src="../assets/backToHome.jpg" /> </b-button
       ></router-link>
     </div>

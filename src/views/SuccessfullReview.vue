@@ -9,11 +9,9 @@
     <div id="words">
       !תודה רבה יש סיכוי ששיניתם שנה שלמה של מישהו לטובה הרבה יותר
     </div>
-    <div id="back">
-      <router-link :to="{ name: 'Home' }"
-        ><b-button> <img alt="back" src="../assets/backToHome.jpg" /> </b-button
-      ></router-link>
-    </div>
+    <b-button :to="{ name: 'menu' }">
+      <img src="../assets/backToHome.jpg" />
+    </b-button>
   </div>
 </template>
 

@@ -63,6 +63,9 @@ const shared_data = {
   base_url: "http://localhost:3000",
   username: localStorage.username,
   street: localStorage.street,
+  BNum: localStorage.BNum,
+  ANum: localStorage.ANum,
+
   year: localStorage.year,
   review: localStorage.review,
   rank: localStorage.rank,

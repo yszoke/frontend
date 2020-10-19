@@ -15,14 +15,14 @@
 export default {
   data() {
     return {
-      selected: "א",
+      selected: "א"
     };
   },
   props: {
     options: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 };
 </script>

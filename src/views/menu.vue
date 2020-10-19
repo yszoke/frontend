@@ -13,12 +13,13 @@
     <div id="moreWords">
       יאללה בואו נתחיל
     </div>
-    <b-button :disabled="disabled" to="/SearchPage" variant="success"
-      >חיפוש מידע על דירה</b-button
-    >
-    <b-button :disabled="disabled" to="/InsertLocation" variant="success"
+    <b-button to="/SearchPage" variant="success">חיפוש מידע על דירה</b-button>
+    <b-button to="/InsertLocation" variant="success"
       >שיתוף בחווית מגורים</b-button
     >
+    <div>
+      <b-button to="/PersonalInfo" variant="primary">מידע אישי</b-button>
+    </div>
   </div>
 </template>
 

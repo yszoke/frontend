@@ -28,8 +28,8 @@ import GreenIcon from "../components/GreenIcon";
 export default {
   components: {
     BackButton,
-    GreenIcon,
-  },
+    GreenIcon
+  }
 };
 </script>
 

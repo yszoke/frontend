@@ -1,8 +1,8 @@
 <template>
   <div id="container">
-    <router-link :to="{ name: 'InsertLocation' }"
-      ><b-button> <img alt="back" src="../assets/back.jpg" /> </b-button
-    ></router-link>
+    <b-button :to="{ name: 'InsertLocation' }">
+      <img src="../assets/back.jpg"
+    /></b-button>
     <div id="face">
       <img src="../assets/rightPoint.jpg" />
     </div>

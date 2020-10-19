@@ -1,8 +1,8 @@
 <template>
   <div id="container">
-    <router-link :to="{ name: 'SetReview1' }"
-      ><b-button> <img alt="back" src="../assets/back.jpg" /> </b-button
-    ></router-link>
+    <b-button :to="{ name: 'SetReview1' }">
+      <img src="../assets/back.jpg"
+    /></b-button>
     <div id="face">
       <img src="../assets/leftPoint.jpg" />
     </div>
@@ -16,7 +16,7 @@
           id="example-input-1"
           name="example-input-1"
           v-model="$v.form.students.$model"
-          :options="foods"
+          :options="rankOptions"
           :state="$v.form.students.$dirty ? !$v.form.students.$error : null"
           aria-describedby="input-1-live-feedback"
         ></b-form-select>
@@ -78,6 +78,10 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
+      streetID: "",
+      buildingID: "",
+      apartmentID: "",
+
       foods: ["apple", "orange"],
       rankOptions: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       form: {
@@ -102,6 +106,53 @@ export default {
       },
     },
   },
+  async created() {
+    try {
+      const response = await this.axios.post(
+        this.$root.store.base_url + "/getAllStreets"
+      );
+      const streets = response.data;
+
+      for (const street in streets) {
+        // console.log(streets[street].streetName);
+
+        if (this.$root.store.street === streets[street].streetName) {
+          this.streetID = streets[street].Id;
+        }
+      }
+      const response2 = await this.axios.post(
+        this.$root.store.base_url + "/getBuildings",
+        {
+          StreetId: this.streetID,
+        }
+      );
+      const buildings = response2.data;
+
+      for (const building in buildings) {
+        console.log(buildings[building].Name);
+
+        if (this.$root.store.BNum === buildings[building].Name) {
+          this.buildingID = buildings[building].Id;
+        }
+      }
+      const response3 = await this.axios.post(
+        this.$root.store.base_url + "/getApartments",
+        {
+          buildingId: this.buildingID,
+        }
+      );
+      const apartments = response3.data;
+      console.log(apartments);
+
+      for (const apartment in apartments) {
+        if (this.$root.store.ANum === apartments[apartment].Name) {
+          this.apartmentID = apartments[apartment].Id;
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
   methods: {
     onSubmit() {
       this.$v.form.$touch();
@@ -117,23 +168,36 @@ export default {
         const response = await this.axios.post(
           "http://localhost:3000/createApartmentPost",
           {
+            apartmentId: this.apartmentID,
             startYear: this.$root.store.year,
-            // endYear: this.$root.store.endYear,
-            APA_Text: this.$root.store.review,
-            APA_rank: this.$root.store.rank,
+            endYear: this.$root.store.year,
+            apartamentText: this.$root.store.review,
+            rank: this.$root.store.rank,
             rentCost: this.$root.store.price,
             heshbonot: this.$root.store.payments,
           }
         );
-        const result = response.data.id;
-        if (result.length > 0) {
-          this.message = result.length + " results returned from your search";
-          this.disabled = false;
+        const result = response;
+
+        const response2 = await this.axios.post(
+          "http://localhost:3000/createBuildingPost",
+          {
+            apartmentId: this.apartmentID,
+            startYear: this.$root.store.year,
+            endYear: this.$root.store.year,
+            buildingId: this.buildingID,
+            levelOfStudents: this.form.students,
+            buildingText: this.form.review,
+            buildingRank: this.form.rank,
+          }
+        );
+        const result2 = response2;
+        console.log(result2);
+        if (result && result2) {
+          this.$router.push({ name: "SuccessfullReview" });
         } else {
-          this.message = "no results from your search";
           this.disabled = true;
         }
-        this.$router.push({ name: "successfullReview" });
       } catch (error) {
         console.log(error);
       }

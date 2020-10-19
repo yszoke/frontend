@@ -4,6 +4,7 @@
     <div id="nav">
       <router-link to="/">Home </router-link>|
       <router-link to="/about"> About </router-link>|
+      <router-link to="/PersonalInfo"> PersonalInfo </router-link>|
       <router-link to="/menu"> menu </router-link>|
       <router-link to="/InsertLocation"> Insert Location </router-link>|
       <router-link to="/SetReview1"> SetReview1 </router-link>|
@@ -15,6 +16,7 @@
       <router-link to="/ConnectionFaild"> Connection Faild </router-link>|
     </div>
     <br />
+    <!-- <b-button @click="logout" to="/" variant="success">logout</b-button> -->
     <main><router-view /></main>
     <footer id="footer" class="container text-center">
       <big>Copyright &copy; Tomer Oko and Yiftah Szoke</big><br />
@@ -28,6 +30,34 @@
 export default {
   components: {},
   name: "App",
+  async beforeCreate() {
+    try {
+      const response = await this.axios.get(
+        this.$root.store.base_url + "/isAuthUsers"
+      );
+      const result = response.data.status;
+
+      if (result === "logged In") {
+        this.$router.push({ name: "menu" });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  methods: {
+    async logout() {
+      try {
+        const response = await this.axios.get(
+          this.$root.store.base_url + "/logout"
+        );
+        const streets = response.data;
+        console.log(streets);
+        this.$router.push({ name: "home" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
 <style>
